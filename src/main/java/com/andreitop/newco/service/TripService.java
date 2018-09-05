@@ -31,12 +31,6 @@ public class TripService {
     }
 
     public void delete(Long id) {
-        TripDto trip = tripRepository.findById(id);
-
-        if(trip == null) {
-            throw new TripNotFoundException("There is no trip with id = " + id);
-        }
-
         tripRepository.delete(id);
     }
 
