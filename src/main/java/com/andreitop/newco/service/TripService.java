@@ -1,19 +1,21 @@
 package com.andreitop.newco.service;
 
 import com.andreitop.newco.dto.TripDto;
-import com.andreitop.newco.repository.TripRepository;
+import com.andreitop.newco.exceptions.TripNotFoundException;
+import com.andreitop.newco.repository.CustomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
 public class TripService {
 
-    private final TripRepository tripRepository;
+    private final CustomRepository<TripDto> tripRepository;
 
     @Autowired
-    public TripService(TripRepository tripRepository) {
-        this.tripRepository = tripRepository;
+    public TripService(CustomRepository<TripDto> repository) {
+        this.tripRepository = repository;
     }
 
     public List<TripDto> findAll() {
@@ -29,10 +31,16 @@ public class TripService {
     }
 
     public void delete(Long id) {
+        TripDto trip = tripRepository.findById(id);
+
+        if(trip == null) {
+            throw new TripNotFoundException("There is no trip with id = " + id);
+        }
+
         tripRepository.delete(id);
     }
 
     public void update(TripDto newTrip) {
-        tripRepository.update(newTrip);
+        tripRepository.save(newTrip);
     }
 }
