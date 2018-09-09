@@ -12,7 +12,7 @@ public class PointcutContainer {
     public void repositoryDelete() {
     }
 
-    @Pointcut("execution( * com.andreitop.newco.repository.*Repo*.update*(..))")
+    @Pointcut("execution( * com.andreitop.newco.service.*Service*.update*(..))")
     public void repositoryUpdate() {
     }
 
